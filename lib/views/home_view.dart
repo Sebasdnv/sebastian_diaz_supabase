@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sebastian_diaz_supabase/viewmodel/auth_view_model.dart';
 import 'package:sebastian_diaz_supabase/views/auth/login_view.dart';
+import 'package:sebastian_diaz_supabase/views/widgets/bottom_nav_bar.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -22,7 +23,8 @@ class HomeView extends StatelessWidget {
           }, icon: const Icon(Icons.logout))
         ],
       ),
-      body: Center(child: Text("Home view"),),
+      body: Center(child: Text("Home view")),
+      bottomNavigationBar: BottomNavBar(currentIndex: 0),
     );
   }
 }
