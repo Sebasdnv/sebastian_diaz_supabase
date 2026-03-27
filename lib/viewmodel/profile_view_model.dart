@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:sebastian_diaz_supabase/core/profile_service.dart';
 import 'package:sebastian_diaz_supabase/models/user_profile.dart';
@@ -24,15 +25,28 @@ class ProfileViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createUserProfile(String username, DateTime birthdate) async {
+  Future<void> createUserProfile(String username, DateTime birthdate, {String? avatarUrl}) async {
     final id = _client.auth.currentUser?.id;
     if (id == null) return;
+
+    String? finalUrl = avatarUrl;
+    if (avatarUrl != null && !avatarUrl.startsWith('http')) {
+      try {
+        final file = File(avatarUrl);
+        final fileName = '${id}_${DateTime.now().millisecondsSinceEpoch}.jpg';
+        final path = 'avatars/$fileName';
+        await _client.storage.from('media').upload(path, file);
+        finalUrl = _client.storage.from('media').getPublicUrl(path);
+      } catch (e) {
+        print("errore upload $e");
+      }
+    }
 
     final newProfile = UserProfile(
       id: id,
       username: username,
       birthdate: birthdate,
-      avatarUrl: null,
+      avatarUrl: finalUrl,
     );
 
     try {
@@ -44,10 +58,30 @@ class ProfileViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateUserProfile(UserProfile updateUserProfile) async{
+  Future<void> updateUserProfile(UserProfile userProfile) async {
+    String? finalUrl = userProfile.avatarUrl;
+    if (finalUrl != null && !finalUrl.startsWith('http')) {
+      try {
+        final file = File(finalUrl);
+        final fileName = '${userProfile.id}_${DateTime.now().millisecondsSinceEpoch}.jpg';
+        final path = 'avatars/$fileName';
+        await _client.storage.from('media').upload(path, file);
+        finalUrl = _client.storage.from('media').getPublicUrl(path);
+      } catch (e) {
+        print("errore upload $e");
+      }
+    }
+
+    final profileToSave = UserProfile(
+      id: userProfile.id,
+      username: userProfile.username,
+      birthdate: userProfile.birthdate,
+      avatarUrl: finalUrl,
+    );
+
     try {
-      await _profileService.updateUserProfile(updateUserProfile);
-    profile = updateUserProfile;
+      await _profileService.updateUserProfile(profileToSave);
+      profile = profileToSave;
     } catch (e) {
       print("errore aggiornamento profilo utente $e");
     }

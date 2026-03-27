@@ -77,9 +77,9 @@ class _UserProfileViewState extends State<UserProfileView> {
                           backgroundImage: _selectedFile != null
                               ? FileImage(_selectedFile!)
                               : profile?.avatarUrl != null
-                              ? NetworkImage(profile!.avatarUrl!)
-                              : AssetImage('assets/avatar_placeholder.jpg')
-                                    as ImageProvider,
+                                  ? NetworkImage(profile!.avatarUrl!)
+                                  : AssetImage('assets/avatar_placeholder.jpg')
+                                      as ImageProvider,
                           child: profile?.avatarUrl == null
                               ? const Icon(Icons.person, size: 50)
                               : null,
@@ -131,10 +131,10 @@ class _UserProfileViewState extends State<UserProfileView> {
                             _selectedDate != null) {
                           final username = _usernameController.text.trim();
                           if (profile == null) {
-                            //* crea nuovo profilo se non esiste
                             await profileVM.createUserProfile(
                               username,
                               _selectedDate!,
+                              avatarUrl: _selectedFile?.path,
                             );
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -146,7 +146,7 @@ class _UserProfileViewState extends State<UserProfileView> {
                               id: profile.id,
                               username: username,
                               birthdate: _selectedDate!,
-                              avatarUrl: profile.avatarUrl,
+                              avatarUrl: _selectedFile?.path ?? profile.avatarUrl,
                             );
                             await profileVM.updateUserProfile(updated);
                             ScaffoldMessenger.of(context).showSnackBar(
