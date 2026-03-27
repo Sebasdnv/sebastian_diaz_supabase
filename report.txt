@@ -1,2 +1,3 @@
 test autenticazione funzionante
 creazione e modifica profilo funzionante
+aggiornamento immagine funzionante
