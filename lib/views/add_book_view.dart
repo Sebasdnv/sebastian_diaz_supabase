@@ -8,15 +8,15 @@ import 'package:uuid/uuid.dart';
 String _statusLabel(BookStatus status) {
   switch (status) {
     case BookStatus.nonLetto:
-      return 'non_letto';
+      return 'non letto';
     case BookStatus.inLettura:
-      return 'in_lettura';
+      return 'in lettura';
     case BookStatus.daLeggere:
-      return 'da_leggere';
+      return 'da leggere';
     case BookStatus.lasciato:
       return 'lasciato';
     case BookStatus.nonInteressa:
-      return 'non_interessa';
+      return 'non interessa';
   }
 }
 

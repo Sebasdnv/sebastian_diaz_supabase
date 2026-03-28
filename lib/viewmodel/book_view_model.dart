@@ -28,6 +28,7 @@ class BookViewModel extends ChangeNotifier{
     try {
       await _bookService.createBook(book);
       _books.insert(0, book);
+      notifyListeners();
     } catch (e) {
       print("errore nella creazione del libro $e");
     }

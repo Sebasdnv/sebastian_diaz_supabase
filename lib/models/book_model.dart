@@ -89,7 +89,7 @@ class Book{
       'rating': rating,
       'comment': comment,
       'status': status.toDbValue(),
-      'creates_at': createdAt.toIso8601String(),
+      'created_at': createdAt.toIso8601String(),
     };
   }
 }
