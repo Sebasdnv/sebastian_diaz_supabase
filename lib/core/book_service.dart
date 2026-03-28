@@ -4,7 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class BookService {
   final SupabaseClient _client = Supabase.instance.client;
 
-  Future<List<Book>> fetchBookForCurrentIser() async {
+  Future<List<Book>> fetchBookForCurrentUser() async {
     final userId = _client.auth.currentUser?.id;
     if (userId == null) {
       return [];
